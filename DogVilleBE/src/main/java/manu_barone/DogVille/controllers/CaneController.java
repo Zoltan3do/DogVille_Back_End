@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -79,6 +80,11 @@ public class CaneController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCane(@PathVariable UUID caneId){
         cs.deleteCane(caneId);
+    }
+
+    @PatchMapping("/{caneId}/avatar")
+    public String addAvatar(@PathVariable("caneId") UUID caneId, @RequestParam("avatar") MultipartFile file) {
+        return cs.uploadPhoto(file, caneId);
     }
 
 

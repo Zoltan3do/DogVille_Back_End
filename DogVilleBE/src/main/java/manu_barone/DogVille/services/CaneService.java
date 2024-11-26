@@ -1,6 +1,10 @@
 package manu_barone.DogVille.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import manu_barone.DogVille.entities.Cane;
+import manu_barone.DogVille.entities.Utente;
+import manu_barone.DogVille.exceptions.BadRequestException;
 import manu_barone.DogVille.exceptions.NotFoundException;
 import manu_barone.DogVille.payloads.CaneDTO;
 import manu_barone.DogVille.payloads.validationGroups.Update;
@@ -11,7 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +25,10 @@ import java.util.UUID;
 public class CaneService {
     @Autowired
     private CaneRepo caneRepo;
+
+    @Autowired
+    private Cloudinary cloudinaryUploader;
+
 
     public Page<Cane> findWithFilters(String adopted, Integer age, String weaned, String race, String healthState, Character gender, String dogSize, Pageable pageable) {
         Specification<Cane> specs = (root, query, criteriaBuilder) -> criteriaBuilder.conjunction();
@@ -83,6 +93,20 @@ public class CaneService {
         Cane cane = this.findById(id);
         caneRepo.delete(cane);
     }
+
+    public String uploadPhoto(MultipartFile file, UUID idCane) {
+        String url = null;
+        try {
+            url = (String) cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        } catch (IOException e) {
+            throw new BadRequestException("Ci sono stati problemi con l'upload del file!");
+        }
+        Cane found = this.findById(idCane);
+        found.setProfileImage(url);
+        caneRepo.save(found);
+        return url;
+    }
+
 
 
 }

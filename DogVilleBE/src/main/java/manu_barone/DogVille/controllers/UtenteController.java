@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,16 +47,20 @@ public class UtenteController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Utente>> findAll(){
+    public ResponseEntity<List<Utente>> findAll() {
         List<Utente> utenti = utenteService.findAll();
         return ResponseEntity.ok(utenti);
     }
 
     @DeleteMapping("/{utenteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUtente(@PathVariable UUID utenteId){
+    public void deleteUtente(@PathVariable UUID utenteId) {
         utenteService.deleteUtente(utenteId);
     }
 
-    
+    @PatchMapping("/{utenteId}/avatar")
+    public String addAvatar(@PathVariable("utenteId") UUID utenteId, @RequestParam("avatar") MultipartFile file) {
+        return utenteService.uploadPhoto(file, utenteId);
+    }
+
 }

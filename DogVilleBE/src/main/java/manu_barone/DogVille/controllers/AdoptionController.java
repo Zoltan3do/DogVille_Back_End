@@ -2,6 +2,7 @@ package manu_barone.DogVille.controllers;
 
 import manu_barone.DogVille.entities.Adozione;
 import manu_barone.DogVille.entities.Cane;
+import manu_barone.DogVille.entities.Utente;
 import manu_barone.DogVille.entities.enums.StatoAdozione;
 import manu_barone.DogVille.exceptions.BadRequestException;
 import manu_barone.DogVille.payloads.AdoptionDTO;
@@ -14,9 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,14 +58,19 @@ public class AdoptionController {
 
     @PatchMapping("/{adozioneId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Adozione updateAdoption(@PathVariable UUID caneId, @RequestParam String statoAdozione) {
-        return as.updateAdoptionState(caneId, statoAdozione);
+    public Adozione updateAdoption(@PathVariable UUID adozioneId, @RequestParam String statoAdozione) {
+        return as.updateAdoptionState(adozioneId, statoAdozione);
     }
 
     @DeleteMapping("/{adozioneId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCane(@PathVariable UUID adozioneId){
         as.deleteCane(adozioneId);
+    }
+
+    @PatchMapping("/{adoptionId}/document")
+    public String addAvatar(@PathVariable("adoptionId") UUID adoptionId, @RequestParam("document") MultipartFile file, @AuthenticationPrincipal Utente currentUtente) {
+        return as.uploadDocument(file, adoptionId, currentUtente);
     }
 
 
