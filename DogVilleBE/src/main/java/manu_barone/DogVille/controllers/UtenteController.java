@@ -58,9 +58,9 @@ public class UtenteController {
         utenteService.deleteUtente(utenteId);
     }
 
-    @PatchMapping("/{utenteId}/avatar")
-    public String addAvatar(@PathVariable("utenteId") UUID utenteId, @RequestParam("avatar") MultipartFile file) {
-        return utenteService.uploadPhoto(file, utenteId);
+    @PatchMapping("/avatar")
+    public String addAvatar( @AuthenticationPrincipal Utente utente, @RequestParam("avatar") MultipartFile file) {
+        return utenteService.uploadPhoto(file, utente.getId());
     }
 
 }
