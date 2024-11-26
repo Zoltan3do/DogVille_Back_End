@@ -63,6 +63,7 @@ public class AdoptionController {
     }
 
     @DeleteMapping("/{adozioneId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCane(@PathVariable UUID adozioneId){
         as.deleteCane(adozioneId);

@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,7 @@ public class CaneController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Cane saveDog(@RequestBody @Validated(Create.class) CaneDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(". "));
@@ -68,6 +70,7 @@ public class CaneController {
     }
 
     @PutMapping("/{caneId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Cane updateCane(@PathVariable UUID caneId, @RequestBody @Validated(Update.class) CaneDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
@@ -78,6 +81,7 @@ public class CaneController {
 
     @DeleteMapping("/{caneId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteCane(@PathVariable UUID caneId){
         cs.deleteCane(caneId);
     }
