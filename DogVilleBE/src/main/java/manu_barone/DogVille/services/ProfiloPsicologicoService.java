@@ -31,8 +31,8 @@ public class ProfiloPsicologicoService {
                 .orElseThrow(() -> new RuntimeException("ProfiloPsicologico non trovato con ID: " + id));
     }
 
-    public ProfiloPsicologico getProfiloPsicologicoByType(String type){
-        return profiloPsicologicoRepository.findByType(type).orElseThrow(()->new NotFoundException("Profilo "+ type+ " non trovato!"));
+    public ProfiloPsicologico getProfiloPsicologicoByType(String type) {
+        return profiloPsicologicoRepository.findByType(type).orElseThrow(() -> new NotFoundException("Profilo " + type + " non trovato!"));
     }
 
 
@@ -86,8 +86,11 @@ public class ProfiloPsicologicoService {
 
     public List<ProfiloPsicologicoDTO> getAllProfilesAsDTO() {
         List<ProfiloPsicologico> allProfiles = profiloPsicologicoRepository.findAll();
+
         return allProfiles.stream()
+                .filter(profile -> profile.getCompatibleProfiles() != null && !profile.getCompatibleProfiles().isEmpty())
                 .map(this::toDTO)
                 .toList();
     }
+
 }
