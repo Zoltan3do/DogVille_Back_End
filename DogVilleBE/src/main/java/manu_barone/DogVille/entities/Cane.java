@@ -54,6 +54,9 @@ public class Cane {
     @JsonIgnore
     private List<Utente> likes;
 
+    @OneToOne(mappedBy = "dog", cascade = CascadeType.REMOVE)
+    private Adozione adoption;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "dogs_profiles",
