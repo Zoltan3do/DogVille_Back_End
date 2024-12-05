@@ -58,6 +58,7 @@ public class UtenteController {
         utenteService.deleteUtente(utenteId);
     }
 
+
     @PatchMapping("/avatar")
     public String addAvatar( @AuthenticationPrincipal Utente utente, @RequestParam("avatar") MultipartFile file) {
         return utenteService.uploadPhoto(file, utente.getId());

@@ -32,7 +32,7 @@ public class CaneController {
 
     @GetMapping("/filter")
     public Page<Cane> getCani(@RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "10") int size,
+                              @RequestParam(defaultValue = "12") int size,
                               @RequestParam(defaultValue = "id") String sortBy,
                               @RequestParam(required = false) Integer age,
                               @RequestParam(required = false) String weanedCheck,
@@ -86,7 +86,7 @@ public class CaneController {
         cs.deleteCane(caneId);
     }
 
-    @PatchMapping("/{caneId}/avatar")
+    @PatchMapping("/avatar/{caneId}")
     public String addAvatar(@PathVariable("caneId") UUID caneId, @RequestParam("avatar") MultipartFile file) {
         return cs.uploadPhoto(file, caneId);
     }
