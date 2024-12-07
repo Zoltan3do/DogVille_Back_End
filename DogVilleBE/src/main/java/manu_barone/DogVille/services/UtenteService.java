@@ -72,6 +72,10 @@ public class UtenteService {
             utente.setPassword(bcrypt.encode(body.password()));
         }
 
+        if ((body.name() != null || body.surname() != null) && utente.getProfileImage().contains("https://ui-avatars.com/api/?name=")) {
+            utente.setProfileImage("https://ui-avatars.com/api/?name=" + utente.getName() + "+" + utente.getSurname());
+        }
+
         return userRepository.save(utente);
     }
 
@@ -120,7 +124,7 @@ public class UtenteService {
         return profilo;
     }
 
-    public void removeProfileFromUser(UUID userId,String profileType) {
+    public void removeProfileFromUser(UUID userId, String profileType) {
         Utente utente = this.findById(userId);
         ProfiloPsicologico profilo = pps.getProfiloPsicologicoByType(profileType);
         utente.getUsersPsycologicalProfiles().remove(profilo);

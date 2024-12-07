@@ -62,7 +62,7 @@ public class UtenteController {
 
 
     @PatchMapping("/avatar")
-    public String addAvatar( @AuthenticationPrincipal Utente utente, @RequestParam("avatar") MultipartFile file) {
+    public String addAvatar(@AuthenticationPrincipal Utente utente, @RequestParam("avatar") MultipartFile file) {
         return utenteService.uploadPhoto(file, utente.getId());
     }
 
