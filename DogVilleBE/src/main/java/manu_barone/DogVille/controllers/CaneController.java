@@ -1,6 +1,7 @@
 package manu_barone.DogVille.controllers;
 
 import manu_barone.DogVille.entities.Cane;
+import manu_barone.DogVille.entities.ProfiloPsicologico;
 import manu_barone.DogVille.exceptions.BadRequestException;
 import manu_barone.DogVille.payloads.CaneDTO;
 import manu_barone.DogVille.payloads.validationGroups.Create;
@@ -89,6 +90,29 @@ public class CaneController {
     @PatchMapping("/avatar/{caneId}")
     public String addAvatar(@PathVariable("caneId") UUID caneId, @RequestParam("avatar") MultipartFile file) {
         return cs.uploadPhoto(file, caneId);
+    }
+
+    @GetMapping("/{dogId}/profiles")
+    public ResponseEntity<List<ProfiloPsicologico>> getUserProfiles(@PathVariable UUID dogId) {
+        return ResponseEntity.ok(cs.getDogProfiles(dogId));
+    }
+
+    @PostMapping("/{dogId}/profiles/{profileType}")
+    public ResponseEntity<ProfiloPsicologico> addProfileToUser(
+            @PathVariable UUID dogId,
+            @PathVariable String profileType
+    ) {
+        ProfiloPsicologico profilo = cs.addProfileToDog(dogId, profileType);
+        return ResponseEntity.ok(profilo);
+    }
+
+    @DeleteMapping("/{dogId}/profiles/{profileType}")
+    public ResponseEntity<Void> removeProfileFromUser(
+            @PathVariable UUID dogId,
+            @PathVariable String profileType
+    ) {
+        cs.removeProfileFromUser(dogId, profileType);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -1,7 +1,9 @@
 package manu_barone.DogVille.controllers;
 
+import manu_barone.DogVille.entities.ProfiloPsicologico;
 import manu_barone.DogVille.entities.Utente;
 import manu_barone.DogVille.exceptions.BadRequestException;
+import manu_barone.DogVille.payloads.ProfiloPsicologicoDTO;
 import manu_barone.DogVille.payloads.UtenteDTO;
 import manu_barone.DogVille.payloads.validationGroups.Update;
 import manu_barone.DogVille.services.UtenteService;
@@ -63,5 +65,29 @@ public class UtenteController {
     public String addAvatar( @AuthenticationPrincipal Utente utente, @RequestParam("avatar") MultipartFile file) {
         return utenteService.uploadPhoto(file, utente.getId());
     }
+
+    @GetMapping("/{userId}/profiles")
+    public ResponseEntity<List<ProfiloPsicologico>> getUserProfiles(@PathVariable UUID userId) {
+        return ResponseEntity.ok(utenteService.getUserProfiles(userId));
+    }
+
+    @PostMapping("/{userId}/profiles/{profileType}")
+    public ResponseEntity<ProfiloPsicologico> addProfileToUser(
+            @PathVariable UUID userId,
+            @PathVariable String profileType
+    ) {
+        ProfiloPsicologico profilo = utenteService.addProfileToUser(userId, profileType);
+        return ResponseEntity.ok(profilo);
+    }
+
+    @DeleteMapping("/{userId}/profiles/{profileType}")
+    public ResponseEntity<Void> removeProfileFromUser(
+            @PathVariable UUID userId,
+            @PathVariable String profileType
+    ) {
+        utenteService.removeProfileFromUser(userId, profileType);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

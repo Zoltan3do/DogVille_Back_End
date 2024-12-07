@@ -82,6 +82,8 @@ public class Cane {
         this.adoptedCheck = "no";
     }
 
+
+
     public String getAdoptedCheck() {
         return adoptedCheck;
     }

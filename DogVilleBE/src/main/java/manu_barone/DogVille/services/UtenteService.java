@@ -3,11 +3,14 @@ package manu_barone.DogVille.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import manu_barone.DogVille.entities.Cane;
+import manu_barone.DogVille.entities.ProfiloPsicologico;
 import manu_barone.DogVille.entities.Utente;
 import manu_barone.DogVille.entities.enums.Ruolo;
 import manu_barone.DogVille.exceptions.BadRequestException;
 import manu_barone.DogVille.exceptions.NotFoundException;
+import manu_barone.DogVille.payloads.ProfiloPsicologicoDTO;
 import manu_barone.DogVille.payloads.UtenteDTO;
+import manu_barone.DogVille.repositories.ProfiloPsicologicoRepo;
 import manu_barone.DogVille.repositories.UtenteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,6 +31,9 @@ public class UtenteService {
 
     @Autowired
     private Cloudinary cloudinaryUploader;
+
+    @Autowired
+    private ProfiloPsicologicoService pps;
 
     public Utente findById(UUID id) {
         return this.userRepository.findById(id)
@@ -96,6 +102,29 @@ public class UtenteService {
         found.setProfileImage(url);
         userRepository.save(found);
         return url;
+    }
+
+    public List<ProfiloPsicologico> getUserProfiles(UUID userId) {
+        Utente utente = findById(userId);
+        return utente.getUsersPsycologicalProfiles();
+    }
+
+    public ProfiloPsicologico addProfileToUser(UUID userId, String profileType) {
+        Utente utente = findById(userId);
+        ProfiloPsicologico profilo = pps.getProfiloPsicologicoByType(profileType);
+        if (!utente.getUsersPsycologicalProfiles().contains(profilo)) {
+            utente.getUsersPsycologicalProfiles().add(profilo);
+            userRepository.save(utente);
+        }
+
+        return profilo;
+    }
+
+    public void removeProfileFromUser(UUID userId,String profileType) {
+        Utente utente = this.findById(userId);
+        ProfiloPsicologico profilo = pps.getProfiloPsicologicoByType(profileType);
+        utente.getUsersPsycologicalProfiles().remove(profilo);
+        userRepository.save(utente);
     }
 
 

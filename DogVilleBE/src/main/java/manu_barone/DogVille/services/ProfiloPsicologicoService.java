@@ -32,7 +32,7 @@ public class ProfiloPsicologicoService {
     }
 
     public ProfiloPsicologico getProfiloPsicologicoByType(String type) {
-        return profiloPsicologicoRepository.findByType(type).orElseThrow(() -> new NotFoundException("Profilo " + type + " non trovato!"));
+        return profiloPsicologicoRepository.findFirstByType(type).orElseThrow(() -> new NotFoundException("Profilo " + type + " non trovato!"));
     }
 
 

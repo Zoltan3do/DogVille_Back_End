@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface ProfiloPsicologicoRepo extends JpaRepository<ProfiloPsicologico, UUID> {
-    Optional<ProfiloPsicologico> findByType(String type);
+    Optional<ProfiloPsicologico> findFirstByType(String type);
 }

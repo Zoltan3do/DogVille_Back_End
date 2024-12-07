@@ -3,6 +3,7 @@ package manu_barone.DogVille.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import manu_barone.DogVille.entities.Cane;
+import manu_barone.DogVille.entities.ProfiloPsicologico;
 import manu_barone.DogVille.entities.Utente;
 import manu_barone.DogVille.exceptions.BadRequestException;
 import manu_barone.DogVille.exceptions.NotFoundException;
@@ -28,6 +29,9 @@ public class CaneService {
 
     @Autowired
     private Cloudinary cloudinaryUploader;
+
+    @Autowired
+    private ProfiloPsicologicoService pps;
 
 
     public Page<Cane> findWithFilters(String adopted, Integer age, String weaned, String race, String healthState, Character gender, String dogSize, Pageable pageable) {
@@ -105,6 +109,29 @@ public class CaneService {
         found.setProfileImage(url);
         caneRepo.save(found);
         return url;
+    }
+
+    public List<ProfiloPsicologico> getDogProfiles(UUID dogId) {
+        Cane cane = findById(dogId);
+        return cane.getDogsPsycologicalProfiles();
+    }
+
+    public ProfiloPsicologico addProfileToDog(UUID dogId, String profileType) {
+        Cane cane = findById(dogId);
+        ProfiloPsicologico profilo = pps.getProfiloPsicologicoByType(profileType);
+        if (!cane.getDogsPsycologicalProfiles().contains(profilo)) {
+            cane.getDogsPsycologicalProfiles().add(profilo);
+            caneRepo.save(cane);
+        }
+
+        return profilo;
+    }
+
+    public void removeProfileFromUser(UUID dogId,String profileType) {
+        Cane cane = this.findById(dogId);
+        ProfiloPsicologico profilo = pps.getProfiloPsicologicoByType(profileType);
+        cane.getDogsPsycologicalProfiles().remove(profilo);
+        caneRepo.save(cane);
     }
 
 
