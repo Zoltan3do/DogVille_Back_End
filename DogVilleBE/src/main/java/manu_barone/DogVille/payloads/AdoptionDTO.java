@@ -10,6 +10,8 @@ import manu_barone.DogVille.entities.enums.StatoAdozione;
 import manu_barone.DogVille.payloads.validationGroups.Create;
 import manu_barone.DogVille.payloads.validationGroups.Update;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public record AdoptionDTO(
