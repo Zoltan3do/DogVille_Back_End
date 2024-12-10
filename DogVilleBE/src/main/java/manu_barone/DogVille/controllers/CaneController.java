@@ -98,7 +98,7 @@ public class CaneController {
     }
 
     @PostMapping("/{dogId}/profiles/{profileType}")
-    public ResponseEntity<ProfiloPsicologico> addProfileToUser(
+    public ResponseEntity<ProfiloPsicologico> addProfileToDog(
             @PathVariable UUID dogId,
             @PathVariable String profileType
     ) {
@@ -107,7 +107,7 @@ public class CaneController {
     }
 
     @DeleteMapping("/{dogId}/profiles/{profileType}")
-    public ResponseEntity<Void> removeProfileFromUser(
+    public ResponseEntity<Void> removeProfileFromDog(
             @PathVariable UUID dogId,
             @PathVariable String profileType
     ) {

@@ -50,11 +50,12 @@ public class Cane {
     private String adoptedCheck;
     private String weanedCheck;
 
-    @ManyToMany(mappedBy = "likes" ,cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "likes", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Utente> likes;
 
     @OneToOne(mappedBy = "dog", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("dog")
     private Adozione adoption;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -78,11 +79,14 @@ public class Cane {
         this.insertionDate = LocalDate.now();
         this.profileImage = "https://ui-avatars.com/api/?name=" + name;
         this.adopted = false;
-        this.weanedCheck = this.weaned?"yes":"no";
+        this.weanedCheck = this.weaned ? "yes" : "no";
         this.adoptedCheck = "no";
     }
 
 
+    public Adozione getAdoption() {
+        return adoption;
+    }
 
     public String getAdoptedCheck() {
         return adoptedCheck;

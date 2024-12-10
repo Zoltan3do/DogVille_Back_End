@@ -48,7 +48,6 @@ public class Adozione {
     }
 
 
-
     public UUID getId() {
         return id;
     }

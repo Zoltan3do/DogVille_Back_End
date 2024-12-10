@@ -61,13 +61,12 @@ public class AdoptionController {
     }
 
     @PatchMapping("/{adozioneId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public Adozione updateAdoption(@PathVariable UUID adozioneId, @RequestParam String statoAdozione) {
         return as.updateAdoptionState(adozioneId, statoAdozione);
     }
 
     @DeleteMapping("/{adozioneId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCane(@PathVariable UUID adozioneId){
         as.deleteCane(adozioneId);
@@ -79,7 +78,7 @@ public class AdoptionController {
     }
 
     @PatchMapping("/{adoptionId}/setVisit/{datavisita}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addVisitDate(
             @PathVariable UUID adoptionId,
             @PathVariable String datavisita,

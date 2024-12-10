@@ -11,6 +11,7 @@ import manu_barone.DogVille.exceptions.NotFoundException;
 import manu_barone.DogVille.exceptions.UnauthorizedException;
 import manu_barone.DogVille.payloads.AdoptionDTO;
 import manu_barone.DogVille.repositories.AdozioneRepo;
+import manu_barone.DogVille.repositories.CaneRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,9 @@ public class AdoptionService {
 
     @Autowired
     private CaneService cs;
+
+    @Autowired
+    private CaneRepo cr;
 
     @Autowired
     private Cloudinary cloudinaryUploader;
@@ -66,6 +70,7 @@ public class AdoptionService {
 
     public Adozione updateAdoptionState(UUID adoptionId, String newState) {
         Adozione adoption = this.findById(adoptionId);
+        Cane cane = cs.findById(adoption.getDog().getId());
         StatoAdozione stateEnum;
         try {
             stateEnum = StatoAdozione.valueOf(newState.toUpperCase());
@@ -74,6 +79,10 @@ public class AdoptionService {
                     || stateEnum == StatoAdozione.ADOZIONE_COMPLETATA && adoption.getState() == StatoAdozione.VISITA_SUPERATA) {
                 adoption.setState(stateEnum);
                 adoption.setLastUpdate(LocalDate.now());
+                if(stateEnum == StatoAdozione.ADOZIONE_COMPLETATA){
+                    cane.setAdopted(true);
+                    cr.save(cane);
+                }
                 return adozioneRepo.save(adoption);
             } else {
                 throw new BadRequestException("Questa operazione non è disponibile a questo punto dell'adozione");
