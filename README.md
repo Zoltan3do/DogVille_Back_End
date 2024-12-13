@@ -27,16 +27,17 @@ DogVille è una piattaforma completa che collega canili e potenziali adottanti. 
 ## Tecnologie Utilizzate
 
 ### Backend
-- **Linguaggio**: Node.js con Express
-- **Database**: MongoDB
+- **Linguaggio**: Java con Spring
+- **Database**: PostGreSQL
 - **Autenticazione**: JSON Web Tokens (JWT)
 - **Storage**: Cloudinary per la gestione delle immagini
+- **Security**: Spring Security
 
 ### Frontend
 - **Libreria**: React.js
 - **Gestione Stato**: Redux
 - **Styling**: CSS3 e framework di design moderno
-- **Interazione con le API**: async fetc
+- **Interazione con le API**: async fetch
 
 ---
 
