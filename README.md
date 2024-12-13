@@ -103,6 +103,7 @@ DogVille è una piattaforma completa che collega canili e potenziali adottanti. 
 - **`PUT /api/dogs/:id`**: Modifica i dati di un cane (richiede autenticazione).
 - **`DELETE /api/dogs/:id`**: Rimuove un cane dal database (richiede autenticazione).
 
+- **AND MORE...**
 ---
 
 ## Contribuzione
