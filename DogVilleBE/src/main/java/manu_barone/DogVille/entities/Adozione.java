@@ -1,5 +1,6 @@
 package manu_barone.DogVille.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -38,6 +39,7 @@ public class Adozione {
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private Utente userAdoptions;
 
     public Adozione(Cane dog, Utente user) {
