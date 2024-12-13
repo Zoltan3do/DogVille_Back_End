@@ -75,11 +75,11 @@ DogVille è una piattaforma completa che collega canili e potenziali adottanti. 
 
 1. Clona il repository:
    ```bash
-   git clone https://github.com/Zoltan3do/DogVille.git
+   git clone https://github.com/Zoltan3do/DogVille_Front_End.git
    ```
 2. Entra nella directory:
    ```bash
-   cd DogVille
+   cd DogVille_Front_End
    ```
 3. Installa le dipendenze:
    ```bash
