@@ -32,6 +32,7 @@ DogVille è una piattaforma completa che collega canili e potenziali adottanti. 
 - **Autenticazione**: JSON Web Tokens (JWT)
 - **Storage**: Cloudinary per la gestione delle immagini
 - **Security**: Spring Security
+- **Api Description**: SwaggerUI -> http://localhost:3001/swagger-ui/index.html 
 
 ### Frontend
 - **Libreria**: React.js
