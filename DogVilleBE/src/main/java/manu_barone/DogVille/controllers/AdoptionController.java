@@ -2,21 +2,17 @@ package manu_barone.DogVille.controllers;
 
 import jakarta.persistence.EntityNotFoundException;
 import manu_barone.DogVille.entities.Adozione;
-import manu_barone.DogVille.entities.Cane;
 import manu_barone.DogVille.entities.Utente;
 import manu_barone.DogVille.entities.enums.StatoAdozione;
 import manu_barone.DogVille.exceptions.BadRequestException;
 import manu_barone.DogVille.payloads.AdoptionDTO;
-import manu_barone.DogVille.payloads.CaneDTO;
 import manu_barone.DogVille.payloads.validationGroups.Create;
-import manu_barone.DogVille.payloads.validationGroups.Update;
 import manu_barone.DogVille.services.AdoptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -96,6 +93,12 @@ public class AdoptionController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Errore durante l'aggiornamento della data della visita.");
         }
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Adozione>> findAll() {
+        List<Adozione> adoptions = as.findAll();
+        return ResponseEntity.ok(adoptions);
     }
 
 

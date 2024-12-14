@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -81,6 +82,7 @@ public class AdoptionService {
                 adoption.setLastUpdate(LocalDate.now());
                 if(stateEnum == StatoAdozione.ADOZIONE_COMPLETATA){
                     cane.setAdopted(true);
+                    cane.setAdoptedCheck("yes");
                     cr.save(cane);
                 }
                 return adozioneRepo.save(adoption);
@@ -129,5 +131,8 @@ public class AdoptionService {
         return found.getVisitDate();
     }
 
+    public List<Adozione> findAll() {
+        return adozioneRepo.findAll();
+    }
 
 }

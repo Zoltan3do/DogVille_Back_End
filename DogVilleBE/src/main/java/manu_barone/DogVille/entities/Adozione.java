@@ -39,7 +39,6 @@ public class Adozione {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    @JsonIgnore
     private Utente userAdoptions;
 
     public Adozione(Cane dog, Utente user) {

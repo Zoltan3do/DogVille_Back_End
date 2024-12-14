@@ -50,7 +50,7 @@ public class CaneController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public Cane saveDog(@RequestBody @Validated(Create.class) CaneDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(". "));
