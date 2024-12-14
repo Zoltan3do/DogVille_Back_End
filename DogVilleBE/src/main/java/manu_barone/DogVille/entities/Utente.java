@@ -43,11 +43,10 @@ public class Utente implements UserDetails {
     private String address;
     private String telephoneNumber;
 
-    @OneToMany(mappedBy = "userAdoptions",cascade = CascadeType.REMOVE)
-    @JsonIgnore
+    @OneToMany(mappedBy = "userAdoptions", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Adozione> adozioni;
 
-    @OneToMany(mappedBy = "userOrders",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "userOrders", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Ordine> ordini;
 
@@ -70,7 +69,7 @@ public class Utente implements UserDetails {
     private List<ProfiloPsicologico> usersPsycologicalProfiles = new ArrayList<>();
 
 
-    public Utente(String name, String surname, String email, String password, String address,String telephoneNumber) {
+    public Utente(String name, String surname, String email, String password, String address, String telephoneNumber) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -79,7 +78,7 @@ public class Utente implements UserDetails {
         this.registrationDate = LocalDate.now();
         this.profileImage = "https://ui-avatars.com/api/?name=" + name + "+" + surname;
         this.address = address;
-        this.telephoneNumber =telephoneNumber;
+        this.telephoneNumber = telephoneNumber;
     }
 
     public List<Adozione> getAdozioni() {
